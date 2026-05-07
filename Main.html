@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Cuenta Regresiva Terrorífica | Tesis M.A.M.E.E.M.</title>
+    <!-- Fuente de terror -->
+    <link href="https://fonts.googleapis.com/css2?family=Creepster&family=Nanum+Gothic+Coding&family=Special+Elite&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+        }
+
+        body {
+            min-height: 100vh;
+            background: radial-gradient(circle at 30% 10%, #0a0101, #000000);
+            font-family: 'Special Elite', 'Courier New', monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow-x: hidden;
+            cursor: crosshair;
+        }
+
+        /* Sangre que gotea animada */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(0deg, rgba(80, 0, 0, 0.2) 0px, rgba(80, 0, 0, 0.2) 2px, transparent 2px, transparent 8px);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Telarañas estáticas */
+        .web {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 180px;
+            height: 180px;
+            background: radial-gradient(circle at 20% 20%, rgba(255,255,200,0.15) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        .web2 {
+            top: auto;
+            bottom: 0;
+            right: 0;
+            left: auto;
+            width: 240px;
+            height: 240px;
+            background: radial-gradient(circle at 80% 80%, rgba(200,180,150,0.12) 0%, transparent 70%);
+        }
+
+        /* contenedor principal terrorífico */
+        .container {
+            position: relative;
+            z-index: 10;
+            max-width: 900px;
+            width: 90%;
+            margin: 2rem auto;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(3px);
+            border: 3px solid #8b0000;
+            border-radius: 40px 20px 60px 20px;
+            box-shadow: 0 0 30px rgba(139, 0, 0, 0.7), inset 0 0 20px rgba(255, 0, 0, 0.2);
+            padding: 1.5rem 1rem 2rem;
+            transition: all 0.2s;
+            animation: borderPulse 3s infinite;
+        }
+
+        @keyframes borderPulse {
+            0% { box-shadow: 0 0 5px #8b0000, inset 0 0 10px rgba(255,0,0,0.2); border-color: #8b0000; }
+            50% { box-shadow: 0 0 25px #b91c1c, inset 0 0 30px rgba(220, 20, 60, 0.5); border-color: #d42424; }
+            100% { box-shadow: 0 0 5px #8b0000, inset 0 0 10px rgba(255,0,0,0.2); border-color: #8b0000; }
+        }
+
+        h1 {
+            font-family: 'Creepster', cursive;
+            font-size: 2.2rem;
+            text-align: center;
+            color: #a11;
+            text-shadow: 3px 3px 0px #4a0000, 0 0 12px #ff3a3a;
+            letter-spacing: 3px;
+            word-break: break-word;
+            background: rgba(0,0,0,0.6);
+            display: inline-block;
+            width: 100%;
+            padding: 0.5rem;
+            border-radius: 50px;
+            margin-bottom: 1rem;
+        }
+
+        .sub {
+            text-align: center;
+            font-size: 1.2rem;
+            color: #c97e5a;
+            text-shadow: 0 0 5px red;
+            border-top: 1px dashed #a33;
+            border-bottom: 1px dashed #a33;
+            padding: 0.5rem;
+            margin-bottom: 2rem;
+            font-weight: bold;
+            background: #0a0101a0;
+        }
+
+        /* EL RELOJ TERRORÍFICO */
+        .countdown-clock {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .time-unit {
+            background: #110000;
+            border-radius: 20px;
+            padding: 0.6rem 0.8rem;
+            min-width: 110px;
+            text-align: center;
+            box-shadow: 0 0 0 2px #6d1a1a, inset 0 0 15px rgba(255, 0, 0, 0.5);
+            transition: transform 0.3s;
+            backdrop-filter: blur(4px);
+            position: relative;
+            overflow: hidden;
+        }
+        .time-unit:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 18px crimson;
+        }
+
+        .time-number {
+            font-family: 'Nanum Gothic Coding', monospace;
+            font-size: 3.5rem;
+            font-weight: bold;
+            color: #ff3a3a;
+            text-shadow: 0 0 10px #ff0000, 0 0 20px #aa0000;
+            background: #000000aa;
+            padding: 0.2rem;
+            border-radius: 15px;
+            letter-spacing: 5px;
+        }
+
+        .time-label {
+            font-family: 'Creepster', cursive;
+            font-size: 1.1rem;
+            color: #e0ac69;
+            text-transform: uppercase;
+            margin-top: 0.5rem;
+            letter-spacing: 2px;
+        }
+
+        /* Mensaje espeluznante */
+        .message {
+            text-align: center;
+            font-size: 1.1rem;
+            color: #cf6a4a;
+            background: #1f0101b3;
+            padding: 0.7rem;
+            border-radius: 30px;
+            margin-top: 2rem;
+            font-style: italic;
+            border-left: 5px solid red;
+            border-right: 5px solid red;
+        }
+
+        /* Botón de música terrorífica EN MEDIO DE LA PÁGINA */
+        .music-area {
+            display: flex;
+            justify-content: center;
+            margin: 2rem auto 1rem;
+        }
+
+        .horror-btn {
+            background: #1f0101;
+            border: 3px solid #b11;
+            color: #ffc0c0;
+            font-family: 'Creepster', cursive;
+            font-size: 1.8rem;
+            padding: 0.8rem 2rem;
+            border-radius: 60px;
+            cursor: pointer;
+            transition: 0.2s;
+            box-shadow: 0 0 15px #dd2222;
+            text-shadow: 2px 2px 0 #3a0000;
+            letter-spacing: 2px;
+            backdrop-filter: blur(5px);
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .horror-btn:hover {
+            background: #3d0404;
+            transform: scale(0.96);
+            box-shadow: 0 0 25px #ff4444, inset 0 0 5px #ff8888;
+            color: #ff6666;
+            border-color: #ff4444;
+        }
+
+        .horror-btn:active {
+            transform: scale(0.93);
+        }
+
+        /* indicador de sangre */
+        .blood-drip {
+            position: absolute;
+            bottom: -10px;
+            left: 20%;
+            width: 8px;
+            height: 18px;
+            background: #b00;
+            border-radius: 0 0 10px 10px;
+            animation: drip 2s infinite;
+        }
+
+        @keyframes drip {
+            0% { opacity: 1; height: 8px; }
+            80% { opacity: 0.7; height: 25px; }
+            100% { opacity: 0; height: 5px; }
+        }
+
+        /* footer sangriento */
+        footer {
+            text-align: center;
+            font-size: 0.8rem;
+            color: #752626;
+            margin-top: 35px;
+            border-top: 1px solid #510000;
+            padding-top: 10px;
+        }
+
+        /* Calavera flotante */
+        .skull-icon {
+            font-size: 3rem;
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            opacity: 0.3;
+            animation: floatSkull 6s infinite;
+            pointer-events: none;
+        }
+        @keyframes floatSkull {
+            0% { transform: translateY(0px) rotate(0deg); opacity: 0.2; }
+            50% { transform: translateY(-12px) rotate(5deg); opacity: 0.5; }
+            100% { transform: translateY(0px) rotate(0deg); opacity: 0.2; }
+        }
+        @media (max-width: 580px) {
+            .time-number { font-size: 2.3rem; }
+            .time-unit { min-width: 70px; padding: 0.3rem; }
+            h1 { font-size: 1.5rem; }
+            .horror-btn { font-size: 1.2rem; padding: 0.5rem 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="web"></div>
+<div class="web web2"></div>
+<div class="skull-icon">💀☠️💀</div>
+
+<div class="container">
+    <h1>⚰️ ENTREGA DE TESIS ⚰️</h1>
+    <div class="sub">4/a. Ant. M.A.M.E.E.M. • La Cuarta Sangrable</div>
+    
+    <!-- RELOJ TERRORÍFICO -->
+    <div class="countdown-clock">
+        <div class="time-unit">
+            <div class="time-number" id="days">00</div>
+            <div class="time-label">DÍAS</div>
+        </div>
+        <div class="time-unit">
+            <div class="time-number" id="hours">00</div>
+            <div class="time-label">HORAS</div>
+        </div>
+        <div class="time-unit">
+            <div class="time-number" id="minutes">00</div>
+            <div class="time-label">MINUTOS</div>
+        </div>
+        <div class="time-unit">
+            <div class="time-number" id="seconds">00</div>
+            <div class="time-label">SEGUNDOS</div>
+        </div>
+    </div>
+    
+    <div class="message">
+        🔪 « La oscuridad acecha... 15 de Junio 2026, la tesis será entregada » 🔪
+    </div>
+    
+    <!-- MUSICA TERRORÍFICA EN MEDIO DE LA PÁGINA -->
+    <div class="music-area">
+        <button id="scaryMusicBtn" class="horror-btn">🎵 INVOCAR MUSICA MACABRA 🎵</button>
+    </div>
+    <div style="text-align: center; font-size: 0.8rem; color: #a33; margin-top: -10px;">
+        ⚠️ (Click para desencadenar el sonido espectral) ⚠️
+    </div>
+    <footer>
+        <span style="filter: blur(0.6px);">☠️ El tiempo se agota... 👁️‍🗨️</span>
+    </footer>
+</div>
+
+<script>
+    (function() {
+        // --------------------------------------------------------------
+        // 1) COUNTDOWN HASTA 15 DE JUNIO 2026 - 00:00:00 (Local)
+        // --------------------------------------------------------------
+        const targetDate = new Date(2026, 5, 15, 0, 0, 0); // Junio 15 2026, medianoche
+        
+        function updateCountdown() {
+            const now = new Date();
+            const distance = targetDate - now;
+            
+            let days = 0, hours = 0, minutes = 0, seconds = 0;
+            let isExpired = false;
+            
+            if (distance <= 0) {
+                isExpired = true;
+                days = 0; hours = 0; minutes = 0; seconds = 0;
+            } else {
+                days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                hours = Math.floor((distance % (86400000)) / (3600000));
+                minutes = Math.floor((distance % 3600000) / 60000);
+                seconds = Math.floor((distance % 60000) / 1000);
+            }
+            
+            const daysElem = document.getElementById('days');
+            const hoursElem = document.getElementById('hours');
+            const minutesElem = document.getElementById('minutes');
+            const secondsElem = document.getElementById('seconds');
+            
+            if (daysElem) daysElem.innerText = days.toString().padStart(2, '0');
+            if (hoursElem) hoursElem.innerText = hours.toString().padStart(2, '0');
+            if (minutesElem) minutesElem.innerText = minutes.toString().padStart(2, '0');
+            if (secondsElem) secondsElem.innerText = seconds.toString().padStart(2, '0');
+            
+            // Cambiar mensaje si expiró
+            const msgDiv = document.querySelector('.message');
+            if (isExpired && msgDiv && !msgDiv.innerHTML.includes("Tesis entregada")) {
+                msgDiv.innerHTML = "💀 LA TESIS FUE ENTREGADA EN LA NOCHE ETERNA 💀";
+                msgDiv.style.color = "#fa5a5a";
+                msgDiv.style.background = "#220000";
+                msgDiv.style.borderColor = "#ff0000";
+            } else if (!isExpired) {
+                // Mantiene mensaje original a menos que ya esté cambiado
+                if (msgDiv && !msgDiv.innerHTML.includes("La oscuridad acecha")) {
+                    msgDiv.innerHTML = "🔪 « La oscuridad acecha... 15 de Junio 2026, la tesis será entregada » 🔪";
+                }
+            }
+        }
+        
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
+        
+        // --------------------------------------------------------------
+        // 2) MÚSICA DE MIEDO GENERATIVA con Web Audio API (Ambiente macabro)
+        // --------------------------------------------------------------
+        let audioContext = null;
+        let isPlaying = false;
+        let activeNodes = [];   // guardar referencias para evitar GC y poder desconectar
+        let masterGain = null;
+        let animationInterval = null;
+        let modInterval = null;
+        
+        // Función para detener y limpiar todo rastro de audio
+        function stopHorrorMusic() {
+            if (animationInterval) {
+                clearInterval(animationInterval);
+                animationInterval = null;
+            }
+            if (modInterval) {
+                clearInterval(modInterval);
+                modInterval = null;
+            }
+            if (audioContext) {
+                // Desconectar y cerrar contexto
+                if (audioContext.state !== 'closed') {
+                    audioContext.close().catch(e => console.warn);
+                }
+                audioContext = null;
+            }
+            isPlaying = false;
+            activeNodes = [];
+            masterGain = null;
+            
+            const btn = document.getElementById('scaryMusicBtn');
+            if (btn && !btn.disabled) {
+                btn.innerHTML = "🎵 INVOCAR MUSICA MACABRA 🎵";
+                btn.style.background = "#1f0101";
+            }
+        }
+        
+        // Genera un 'ruido fantasmal' (wind + rumble)
+        function createGhostNoise(context, durationSec = 4) {
+            const sampleRate = context.sampleRate;
+            const length = sampleRate * durationSec;
+            const buffer = context.createBuffer(1, length, sampleRate);
+            const data = buffer.getChannelData(0);
+            for (let i = 0; i < length; i++) {
+                // ruido tipo browniano suave para viento
+                data[i] = (Math.random() - 0.5) * 0.8 + (Math.random() - 0.5) * 0.3;
+            }
+            const noiseSource = context.createBufferSource();
+            noiseSource.buffer = buffer;
+            noiseSource.loop = true;
+            return noiseSource;
+        }
+        
+        // Iniciar atmósfera de terror (debe llamarse con gesto de usuario)
+        async function startHorrorMusic() {
+            // Si ya suena, detener y reiniciar? mejor paramos y lanzamos nuevo fresh
+            if (isPlaying) {
+                stopHorrorMusic();
+                // pequeño delay para reactivar
+                setTimeout(() => startHorrorMusic(), 100);
+                return;
+            }
+            
+            try {
+                // Crear contexto de audio
+                const AudioCtx = window.AudioContext || window.webkitAudioContext;
+                const ctx = new AudioCtx();
+                audioContext = ctx;
+                
+                // Master gain (volumen general espeluznante)
+                masterGain = ctx.createGain();
+                masterGain.gain.value = 0.45;   // ambiente sin saturar
+                masterGain.connect(ctx.destination);
+                
+                // 1) DRONE INFERNAL: Oscilador bajo con modulación
+                const droneOsc = ctx.createOscillator();
+                droneOsc.type = 'sawtooth';   // sonido áspero
+                droneOsc.frequency.value = 58.0;
+                const droneGain = ctx.createGain();
+                droneGain.gain.value = 0.25;
+                droneOsc.connect(droneGain);
+                droneGain.connect(masterGain);
+                
+                // 2) segundo oscilador (fantasma) con seno grave
+                const ghostOsc = ctx.createOscillator();
+                ghostOsc.type = 'sine';
+                ghostOsc.frequency.value = 73.2;
+                const ghostGain = ctx.createGain();
+                ghostGain.gain.value = 0.2;
+                ghostOsc.connect(ghostGain);
+                ghostGain.connect(masterGain);
+                
+                // 3) Ruido de viento + filtro barrido
+                const noiseSource = createGhostNoise(ctx, 3);
+                const noiseFilter = ctx.createBiquadFilter();
+                noiseFilter.type = 'lowpass';
+                noiseFilter.frequency.value = 550;
+                noiseFilter.Q.value = 5;
+                const noiseGain = ctx.createGain();
+                noiseGain.gain.value = 0.3;
+                noiseSource.connect(noiseFilter);
+                noiseFilter.connect(noiseGain);
+                noiseGain.connect(masterGain);
+                
+                // 4) LFO para barrer el filtro del ruido (efecto fantasmal)
+                const lfo = ctx.createOscillator();
+                lfo.type = 'triangle';
+                lfo.frequency.value = 0.12;  // lento y ominoso
+                const lfoGain = ctx.createGain();
+                lfoGain.gain.value = 320;     // rango barrido
+                lfo.connect(lfoGain);
+                lfoGain.connect(noiseFilter.frequency);
+                
+                // 5) Contorno espeluznante: un tercer oscilador con modulación de tono aleatorio (será manipulado con interval)
+                const tremorOsc = ctx.createOscillator();
+                tremorOsc.type = 'triangle';
+                tremorOsc.frequency.value = 144;
+                const tremorGain = ctx.createGain();
+                tremorGain.gain.value = 0.12;
+                tremorOsc.connect(tremorGain);
+                tremorGain.connect(masterGain);
+                
+                // Guardar referencia activa
+                activeNodes = [droneOsc, ghostOsc, noiseSource, lfo, tremorOsc, noiseFilter, droneGain, ghostGain, noiseGain, tremorGain, lfoGain, masterGain];
+                
+                // Iniciar todas las fuentes
+                droneOsc.start();
+                ghostOsc.start();
+                noiseSource.start();
+                lfo.start();
+                tremorOsc.start();
+                
+                // Pequeño toque: Modificar la frecuencia del tremorOsc cada 3 segundos aleatoriamente (risa macabra)
+                modInterval = setInterval(() => {
+                    if (!isPlaying || !tremorOsc || !audioContext) return;
+                    try {
+                        const randomFreq = 130 + Math.random() * 65; // entre 130 y 195 Hz
+                        tremorOsc.frequency.linearRampToValueAtTime(randomFreq, audioContext.currentTime + 0.5);
+                        // también a veces modificar levemente drone
+                        if (Math.random() > 0.6) {
+                            droneOsc.frequency.linearRampToValueAtTime(56 + Math.random() * 12, audioContext.currentTime + 0.8);
+                        }
+                        // efecto de "grito lejano" pequeño tweak
+                        if (Math.random() > 0.8) {
+                            const screechGain = ctx.createGain();
+                            screechGain.gain.value = 0.06;
+                            const screech = ctx.createOscillator();
+                            screech.type = 'sine';
+                            screech.frequency.value = 880 + Math.random() * 200;
+                            screech.connect(screechGain);
+                            screechGain.connect(masterGain);
+                            screech.start();
+                            screech.stop(ctx.currentTime + 0.8);
+                            // autocleanup
+                            setTimeout(() => {
+                                try { screech.disconnect(); screechGain.disconnect(); } catch(e) {}
+                            }, 1000);
+                        }
+                    } catch(e) {}
+                }, 3800);
+                
+                // Adicional: variacion suave del filtro del ruido mediante un segundo LFO manual? ya hay LFO → pero un micro cambio extra
+                animationInterval = setInterval(() => {
+                    if (!isPlaying || !audioContext || audioContext.state !== 'running') return;
+                    try {
+                        // pequeña fluctuación de ganancia master
+                        if (masterGain) {
+                            const newVal = 0.4 + Math.sin(Date.now() * 0.0015) * 0.08;
+                            masterGain.gain.linearRampToValueAtTime(newVal, audioContext.currentTime + 0.2);
+                        }
+                    } catch(e) {}
+                }, 1200);
+                
+                // importante: asegurar estado running del contexto (necesario en Chrome)
+                if (audioContext.state === 'suspended') {
+                    await audioContext.resume();
+                }
+                
+                isPlaying = true;
+                const btn = document.getElementById('scaryMusicBtn');
+                if (btn) {
+                    btn.innerHTML = "⛧ DETENER RITUAL SONORO ⛧";
+                    btn.style.background = "#5a0808";
+                }
+                
+                // Manejar cuando la página se cierra o se descarga, limpiar (opcional)
+                window.addEventListener('beforeunload', () => {
+                    if (audioContext && isPlaying) {
+                        stopHorrorMusic();
+                    }
+                });
+                
+            } catch (err) {
+                console.error("Error al iniciar la música de miedo:", err);
+                const btn = document.getElementById('scaryMusicBtn');
+                if (btn) {
+                    btn.innerHTML = "⚠️ ERROR MACABRO (click otra vez) ⚠️";
+                    setTimeout(() => {
+                        if (btn && !isPlaying) btn.innerHTML = "🎵 INVOCAR MUSICA MACABRA 🎵";
+                    }, 2000);
+                }
+            }
+        }
+        
+        // Botón de invocación/ritual
+        const musicBtn = document.getElementById('scaryMusicBtn');
+        if (musicBtn) {
+            musicBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                // Si está sonando, paramos; si no, iniciamos
+                if (isPlaying) {
+                    stopHorrorMusic();
+                } else {
+                    startHorrorMusic().catch(err => {
+                        console.warn(err);
+                        alert("Para activar la maldición sonora, interactúa con la página (el ritual requiere clic).");
+                    });
+                }
+            });
+        }
+        
+        // Efecto visual adicional: gotas de sangre aleatorias en el reloj (forma terrorífica)
+        function addBloodDrips() {
+            const units = document.querySelectorAll('.time-unit');
+            units.forEach(unit => {
+                if (!unit.querySelector('.blood-drip')) {
+                    const drip = document.createElement('div');
+                    drip.classList.add('blood-drip');
+                    drip.style.left = Math.random() * 70 + 15 + '%';
+                    drip.style.animationDuration = 1.5 + Math.random() * 2 + 's';
+                    unit.style.position = 'relative';
+                    unit.appendChild(drip);
+                }
+            });
+        }
+        addBloodDrips();
+        setInterval(() => {
+            const drips = document.querySelectorAll('.blood-drip');
+            drips.forEach(d => {
+                if (Math.random() > 0.7) {
+                    d.style.left = Math.random() * 70 + 15 + '%';
+                    d.style.animation = 'none';
+                    d.offsetHeight;
+                    d.style.animation = 'drip 2s infinite';
+                }
+            });
+        }, 3000);
+        
+        // Resplandor espeluznante en los números del reloj (efecto sangriento)
+        const numbers = document.querySelectorAll('.time-number');
+        setInterval(() => {
+            if (Math.random() > 0.6) {
+                numbers.forEach(el => {
+                    el.style.textShadow = "0 0 15px crimson, 0 0 25px darkred";
+                    setTimeout(() => {
+                        if(el) el.style.textShadow = "0 0 10px #ff0000, 0 0 20px #aa0000";
+                    }, 200);
+                });
+            }
+        }, 1800);
+        
+        // Advertencia: si el usuario no ha interactuado con la música, mostrar tooltip fantasma
+        const containerDiv = document.querySelector('.container');
+        if(containerDiv) {
+            containerDiv.addEventListener('click', (e) => {
+                // solo para garantizar que si el usuario cliquea en cualquier lugar y el contexto de audio no está iniciado, no force musica automatica;
+                // pero no hacemos autoplay invasivo. Solo resaltado.
+                if (!isPlaying && audioContext === null) {
+                    const btn = document.getElementById('scaryMusicBtn');
+                    if(btn) btn.style.animation = "borderPulse 1s infinite";
+                    setTimeout(()=>{ if(btn) btn.style.animation = ""; }, 1200);
+                }
+            });
+        }
+        
+        // Una calavera flotante extra dinámica
+        const skullSpan = document.createElement('div');
+        skullSpan.innerHTML = "💀🔪💀";
+        skullSpan.style.position = "fixed";
+        skullSpan.style.bottom = "15px";
+        skullSpan.style.right = "15px";
+        skullSpan.style.fontSize = "2rem";
+        skullSpan.style.opacity = "0.3";
+        skullSpan.style.pointerEvents = "none";
+        skullSpan.style.animation = "floatSkull 4s infinite";
+        document.body.appendChild(skullSpan);
+        
+        // actualizacion adicional de formato de reloj para terror
+        console.log("Cuenta regresiva maldita activa... ¡suerte con tu tesis!");
+    })();
+</script>
+</body>
+</html>
